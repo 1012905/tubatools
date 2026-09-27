@@ -531,11 +531,21 @@ public static class BenchmarkCloudService
 		progress?.Report("正在同步 Fork...");
 		await SyncForkWithUpstreamAsync(forkOwner, token, ct);
 		string branchName = "delete/" + entry.Id;
+		string? existingPrUrl = await FindOpenPullRequestUrlAsync(forkOwner, branchName, ct);
+		if (existingPrUrl != null)
+		{
+			InvalidateCache();
+			return existingPrUrl;
+		}
 		progress?.Report("正在创建分支...");
 		string mainSha = (await GetRefShaAsync(forkOwner, "tubatoolsPlugin", "heads/main", token, ct))!;
 		if (mainSha == null)
 		{
 			throw new InvalidOperationException("无法获取 main 分支 SHA");
+		}
+		if (await CheckRefExistsAsync(forkOwner, "tubatoolsPlugin", "heads/" + branchName, token, ct))
+		{
+			branchName = $"delete/{entry.Id}-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
 		}
 		await CreateRefAsync(forkOwner, "tubatoolsPlugin", "refs/heads/" + branchName, mainSha, token, ct);
 		progress?.Report("正在删除文件...");
@@ -1307,6 +1317,24 @@ public static class BenchmarkCloudService
 			string body2 = await resp.Content.ReadAsStringAsync(ct);
 			throw new InvalidOperationException($"删除文件失败：{(int)resp.StatusCode}\n{body2}");
 		}
+	}
+
+	private static async Task<string?> FindOpenPullRequestUrlAsync(string forkOwner, string branch, CancellationToken ct)
+	{
+		using var client = GitHubAuthService.CreateAuthenticatedClient();
+		try
+		{
+			string url = $"https://api.github.com/repos/luolangaga/tubatoolsPlugin/pulls?state=open&head={Uri.EscapeDataString(forkOwner + ":" + branch)}&per_page=1";
+			using var doc = JsonDocument.Parse(await client.GetStringAsync(url, ct));
+			if (doc.RootElement.ValueKind == JsonValueKind.Array && doc.RootElement.GetArrayLength() > 0)
+			{
+				return doc.RootElement[0].TryGetProperty("html_url", out var u) ? u.GetString() : null;
+			}
+		}
+		catch
+		{
+		}
+		return null;
 	}
 
 	private static async Task<string> CreateDeletePullRequestAsync(string branch, string forkOwner, BenchmarkReportEntry entry, string token, CancellationToken ct)
