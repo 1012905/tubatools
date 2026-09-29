@@ -103,6 +103,7 @@ public sealed partial class HomePage : Page, ILocalizablePage
             CompactGrid.Visibility = Visibility.Collapsed;
         }
         UpdateItemWidth();
+        UpdateTitle();
     }
 
     private void UpdateItemWidth()
@@ -383,7 +384,9 @@ public sealed partial class HomePage : Page, ILocalizablePage
             : _selectedTag is not null
                 ? string.Format(LocalizationService.L("HomePage_SubtitleTag", "显示带有「{0}」标签的工具。"), _selectedTag)
                 : _category is null
-                    ? LocalizationService.L("HomePage_SubtitleAll", "从左侧选择分类，点击卡片看详情，点击打开运行工具。")
+                    ? _compactMode
+                        ? LocalizationService.L("HomePage_SubtitleAllCompact", "从左侧选择分类，点击卡片看详情，双击卡片打开工具。")
+                        : LocalizationService.L("HomePage_SubtitleAll", "从左侧选择分类，点击卡片看详情，点击打开运行工具。")
                     : string.Format(LocalizationService.L("HomePage_SubtitleCategory", "正在浏览“{0}”分类。"), LocalizationService.GetCategoryDisplayName(_category));
     }
 
@@ -815,8 +818,9 @@ public sealed partial class HomePage : Page, ILocalizablePage
 
     private void CompactGrid_ItemClick(object sender, ItemClickEventArgs e)
     {
+        // 简洁模式与普通模式交互对齐：单击看详情，双击才打开工具
         if (e.ClickedItem is ToolItem tool)
-            LaunchTool(tool, runAsAdmin: false);
+            ShowToolDetail(tool);
     }
 
     private void CompactGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

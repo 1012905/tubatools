@@ -415,6 +415,9 @@ public sealed partial class MainWindow : Window
         // AppSettings 落盘是去抖的（500ms 合并），退出前同步刷一次避免丢最后变更
         AppSettings.Flush();
 
+        // 遥测：尽力把队列中剩余数据发出去（有界等待），随后停止采集
+        try { Services.Telemetry.TelemetryService.Shutdown(); } catch { }
+
         // 硬件监控句柄与 FPS 的 ETW 会话必须显式释放：内核 ETW 会话不会随进程终止自动回收，
         // 残留会让下次启动的 FPS 采集失效；轮询定时器/自动覆盖层/未落盘记录一并收尾。
         try { LiteMonitorService.Instance.Dispose(); } catch { }

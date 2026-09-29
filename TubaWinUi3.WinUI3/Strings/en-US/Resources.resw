@@ -223,6 +223,9 @@
   <data name="HomePage_DropHintFooter.Text" xml:space="preserve">
     <value>Drop a zip/exe/ps1/bat here to add your own tool. Right-click a tool for more actions.</value>
   </data>
+  <data name="HomePage_DropHintFooterCompact.Text" xml:space="preserve">
+    <value>Double-click a card to open a tool. Drop a zip/exe/ps1/bat here to add your own tool. Right-click a tool for more actions.</value>
+  </data>
   <data name="HomePage_EditModeHint.Text" xml:space="preserve">
     <value>Drag any row up or down to reorder, then click "Done" in the top-right corner.</value>
   </data>
@@ -249,6 +252,9 @@
   </data>
   <data name="HomePage_SubtitleAll" xml:space="preserve">
     <value>Pick a category on the left, click a card for details, or click a card to launch a tool.</value>
+  </data>
+  <data name="HomePage_SubtitleAllCompact" xml:space="preserve">
+    <value>Pick a category on the left, click a card for details, or double-click a card to open a tool.</value>
   </data>
   <data name="HomePage_SubtitleCategory" xml:space="preserve">
     <value>Browsing the "{0}" category.</value>
@@ -1428,6 +1434,12 @@
   </data>
   <data name="Settings_SearchIndex_Desc.Text" xml:space="preserve">
     <value>Search a tool name (e.g. CPU-Z) in the Start menu to launch it directly without opening the toolbox; duplicate versions are deduplicated, and shortcuts are cleaned up when disabled</value>
+  </data>
+  <data name="Settings_Telemetry_Title.Text" xml:space="preserve">
+    <value>Send anonymous usage data</value>
+  </data>
+  <data name="Settings_Telemetry_Desc.Text" xml:space="preserve">
+    <value>Reports anonymous runtime info (version, architecture, OS build) and error logs to count active users, diagnose crashes and improve the app. No usernames or file paths are included. Turning this off stops collection immediately and clears pending data</value>
   </data>
   <data name="Settings_SearchIndex_Title.Text" xml:space="preserve">
     <value>Register in Windows Search</value>

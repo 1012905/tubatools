@@ -16,6 +16,7 @@ using Shapes = Microsoft.UI.Xaml.Shapes;
 using TubaWinUi3.Services;
 using TubaWinUi3.Services.ActiveIntercept;
 using TubaWinUi3.Services.Ai;
+using TubaWinUi3.Services.Telemetry;
 using TubaWinUi3.Models;
 using Windows.UI;
 using static TubaWinUi3.Services.ConfigManager;
@@ -227,6 +228,7 @@ public sealed partial class SettingsPage : Page, ILocalizablePage
         InitActiveInterceptToggle();
         InitActiveInterceptNotifyModeComboBox();
         InitSearchIndexToggle();
+        InitTelemetryToggle();
 
         if (RuntimeHelper.IsMsixPackaged)
         {
@@ -1209,6 +1211,7 @@ public sealed partial class SettingsPage : Page, ILocalizablePage
 
     private bool _activeInterceptInitializing;
     private bool _searchIndexInitializing;
+    private bool _telemetryInitializing;
 
     private void InitActiveInterceptToggle()
     {
@@ -1273,6 +1276,19 @@ public sealed partial class SettingsPage : Page, ILocalizablePage
         _searchIndexInitializing = true;
         SearchIndexToggle.IsOn = AppSettings.GetBool("WindowsSearchIndex", false);
         _searchIndexInitializing = false;
+    }
+
+    private void InitTelemetryToggle()
+    {
+        _telemetryInitializing = true;
+        TelemetryToggle.IsOn = AppSettings.GetBool(TelemetryService.SettingKey, true);
+        _telemetryInitializing = false;
+    }
+
+    private void TelemetryToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (_telemetryInitializing) return;
+        TelemetryService.SetEnabled(TelemetryToggle.IsOn);
     }
 
     private void SearchIndexToggle_Toggled(object sender, RoutedEventArgs e)

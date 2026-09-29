@@ -9,6 +9,7 @@ using TubaWinUi3.Services;
 using TubaWinUi3.Services.ActiveIntercept;
 using TubaWinUi3.Services.Agent;
 using TubaWinUi3.Services.Ai;
+using TubaWinUi3.Services.Telemetry;
 using TubaWinUi3.Models;
 namespace TubaWinUi3;
 
@@ -34,6 +35,10 @@ public partial class App : Application
         // LiveCharts.Configure 在 App() 中已移除，启动不再加载 SkiaSharp 原生库。
 
         AppSettings.Load();
+
+        // 匿名遥测（在线用户统计 + 错误日志）：默认开启，可在设置中关闭。
+        // 初始化只构建对象、不做网络等待，上传全在后台进行，失败静默落盘续传。
+        TelemetryService.Initialize();
 
         // AI 助手：接上 FieldCure 组件库的诊断回调。组件内部的失败（WebView2 环境创建失败、
         // 渲染被就绪守卫拦下、脚本异常等）默认完全静默，只会表现为"字没了、什么都没发生"；
@@ -652,6 +657,7 @@ public partial class App : Application
     private void OnUnhandledException(object sender, System.UnhandledExceptionEventArgs e)
     {
         _pendingException = e.ExceptionObject as Exception ?? new Exception(e.ExceptionObject?.ToString() ?? "未知错误");
+        TelemetryService.TrackException(_pendingException, "AppDomain", fatal: true);
         NavigateToErrorPage();
     }
 
@@ -662,6 +668,7 @@ public partial class App : Application
         // 业务路径（provider 流/页面回调）的异常均已各自处理并展示错误气泡。
         TubaWinUi3.Services.Agent.AgentDebugLog.Error(
             "[App] 未观察任务异常（已标记观察，不影响使用）", e.Exception);
+        TelemetryService.TrackException(e.Exception, "Task");
         e.SetObserved();
     }
 
@@ -684,6 +691,16 @@ public partial class App : Application
             catch { }
         }
         catch { }
+
+        // 未处理异常上报（文本已脱敏，不含用户名/路径）；已知的 AI 面板销毁竞态带专门
+        // 来源标记，便于在后台一眼分辨是第三方组件噪声还是真问题。
+        try
+        {
+            var source = ChatPanelCrashFilter.IsTeardownRace(e.Exception) ? "WinUI.ChatPanelTeardownRace" : "WinUI";
+            TelemetryService.TrackException(e.Exception, source);
+        }
+        catch { }
+
         e.Handled = true;
 
         // AI 助手面板（FieldCure ChatPanel）的销毁竞态：面板已从界面移除、本轮回复作废，

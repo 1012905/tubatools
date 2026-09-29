@@ -560,8 +560,8 @@
                                 HorizontalAlignment="Center"
                                 FontSize="12"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                l:Uids.Uid="HomePage_DropHintFooter"
-                                Text="拖入 zip/exe/ps1/bat 可添加自己的工具，右键可以对工具执行更多操作" />
+                                l:Uids.Uid="HomePage_DropHintFooterCompact"
+                                Text="双击卡片打开工具；拖入 zip/exe/ps1/bat 可添加自己的工具，右键可以对工具执行更多操作" />
                         </DataTemplate>
                     </GridView.FooterTemplate>
                 </GridView>

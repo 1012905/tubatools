@@ -336,6 +336,24 @@
                                     </Grid>
                                 </Border>
 
+                                <Border x:Name="SettingsTelemetryCard" Style="{StaticResource SettingsCardStyle}">
+                                    <Grid ColumnSpacing="16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Style="{StaticResource IconBorderStyle}">
+                                            <FontIcon FontSize="18" Glyph="&#xE9D9;" />
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                            <TextBlock FontWeight="Bold" Text="发送匿名使用数据" l:Uids.Uid="Settings_Telemetry_Title" />
+                                            <TextBlock Opacity="1.0" FontSize="13" TextWrapping="Wrap" Text="上报匿名运行信息（版本、架构、系统版本）与错误日志，用于统计活跃用户、定位崩溃和改进软件；不含用户名、文件路径等个人信息，关闭后立即停止采集并清除待传数据" l:Uids.Uid="Settings_Telemetry_Desc" />
+                                        </StackPanel>
+                                        <ToggleSwitch x:Name="TelemetryToggle" Grid.Column="2" VerticalAlignment="Center" Toggled="TelemetryToggle_Toggled" />
+                                    </Grid>
+                                </Border>
+
                                 <Border x:Name="SettingsProxyCard" Style="{StaticResource SettingsCardStyle}">
                                     <Grid RowSpacing="12">
                                         <Grid.RowDefinitions>

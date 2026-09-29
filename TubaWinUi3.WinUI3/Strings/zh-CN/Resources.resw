@@ -223,6 +223,9 @@
   <data name="HomePage_DropHintFooter.Text" xml:space="preserve">
     <value>拖入 zip/exe/ps1/bat 可添加自己的工具，右键可以对工具执行更多操作</value>
   </data>
+  <data name="HomePage_DropHintFooterCompact.Text" xml:space="preserve">
+    <value>双击卡片打开工具；拖入 zip/exe/ps1/bat 可添加自己的工具，右键可以对工具执行更多操作</value>
+  </data>
   <data name="HomePage_EditModeHint.Text" xml:space="preserve">
     <value>按住任意行上下拖动即可调整顺序，完成后点击右上角“完成”。</value>
   </data>
@@ -249,6 +252,9 @@
   </data>
   <data name="HomePage_SubtitleAll" xml:space="preserve">
     <value>从左侧选择分类，点击卡片看详情，点击打开运行工具。</value>
+  </data>
+  <data name="HomePage_SubtitleAllCompact" xml:space="preserve">
+    <value>从左侧选择分类，点击卡片看详情，双击卡片打开工具。</value>
   </data>
   <data name="HomePage_SubtitleCategory" xml:space="preserve">
     <value>正在浏览“{0}”分类。</value>
@@ -1442,6 +1448,12 @@
   </data>
   <data name="Settings_SearchIndex_Desc.Text" xml:space="preserve">
     <value>在开始菜单搜索工具名（如 CPU-Z）直接启动，无需打开工具箱；多版本自动去重，关闭时自动清理快捷方式</value>
+  </data>
+  <data name="Settings_Telemetry_Title.Text" xml:space="preserve">
+    <value>发送匿名使用数据</value>
+  </data>
+  <data name="Settings_Telemetry_Desc.Text" xml:space="preserve">
+    <value>上报匿名运行信息（版本、架构、系统版本）与错误日志，用于统计活跃用户、定位崩溃和改进软件；不含用户名、文件路径等个人信息，关闭后立即停止采集并清除待传数据</value>
   </data>
   <data name="Settings_SearchIndex_Title.Text" xml:space="preserve">
     <value>注册到 Windows 搜索</value>
