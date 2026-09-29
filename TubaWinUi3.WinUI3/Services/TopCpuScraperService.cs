@@ -131,22 +131,24 @@ public static class TopCpuScraperService
 
     private static string BuildGpuUrl(string bench, string? category)
     {
-        var path = bench switch
+        var benchPath = bench switch
         {
-            "fp32" => "/gpu-r",
-            "time-spy" => "/gpu-r/3dmark-time-spy",
-            "time-spy-extreme" => "/gpu-r/3dmark-time-spy-extreme",
-            "speed-way" => "/gpu-r/3dmark-speed-way",
-            "ai-tops" => "/gpu-r/ai-tops",
-            _ => "/gpu-r"
+            "fp32" => "fp32-float",
+            "time-spy" => "3dmark-time-spy",
+            "time-spy-extreme" => "3dmark-time-spy-extreme",
+            "speed-way" => "3dmark-speed-way",
+            "ai-tops" => "ai-tops",
+            _ => "fp32-float"
         };
+
+        var path = $"/gpu-r/{benchPath}";
 
         if (!string.IsNullOrEmpty(category) && category != "all")
         {
             var catSuffix = category switch
             {
                 "desktop" => "-desktop",
-                "laptop" => "-laptop",
+                "laptop" => "-mobile",
                 "integrated" => "-integrated",
                 "professional" => "-professional",
                 "ai" => "-ai",
@@ -229,7 +231,7 @@ public static class TopCpuScraperService
             var tflops = "";
             var rating = 0;
 
-            if (scoreText.Contains("TFLOPS", StringComparison.OrdinalIgnoreCase))
+            if (node.InnerText.Contains("TFLOPS", StringComparison.OrdinalIgnoreCase))
             {
                 tflops = scoreText.Replace("TFLOPS", "").Trim();
                 double.TryParse(tflops, out var tfVal);
