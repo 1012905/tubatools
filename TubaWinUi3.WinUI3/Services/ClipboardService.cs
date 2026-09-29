@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using TubaWinUi3.Services.Telemetry;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 
@@ -64,7 +65,7 @@ internal static class ClipboardService
         if (string.IsNullOrEmpty(text)) return new ClipboardCopyResult(true, 0, null);
 
         return RetryCore(
-            attempt: static _ => WriteText(text!, flush),
+            attempt: _ => WriteText(text!, flush),
             delaysMs: RetryDelaysMs,
             sleepMs: Thread.Sleep);
     }
