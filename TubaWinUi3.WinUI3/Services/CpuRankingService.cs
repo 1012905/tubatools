@@ -14,8 +14,9 @@ public static class CpuRankingService
 
     private static readonly string[] FallbackUrls =
     [
-        "https://raw.tubawinui3.cn/luolangaga/tubatools/raw/branch/master/Metadata/cpu-ranking.json",
-        "https://raw.githubusercontent.com/luolangaga/tubatools/master/Metadata/cpu-ranking.json"
+        "https://gh-proxy.com/https://raw.githubusercontent.com/luolangaga/tubatools/master/TubaWinUi3.WinUI3/Metadata/cpu-ranking.json",
+        "https://cdn.jsdelivr.net/gh/luolangaga/tubatools@master/TubaWinUi3.WinUI3/Metadata/cpu-ranking.json",
+        "https://raw.githubusercontent.com/luolangaga/tubatools/master/TubaWinUi3.WinUI3/Metadata/cpu-ranking.json"
     ];
 
     public static List<CpuRankingEntry> Desktop => _desktop ?? [];

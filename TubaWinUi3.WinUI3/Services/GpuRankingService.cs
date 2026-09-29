@@ -14,8 +14,9 @@ public static class GpuRankingService
 
     private static readonly string[] FallbackUrls =
     [
-        "https://raw.tubawinui3.cn/luolangaga/tubatools/raw/branch/master/Metadata/gpu-ranking.json",
-        "https://raw.githubusercontent.com/luolangaga/tubatools/master/Metadata/gpu-ranking.json"
+        "https://gh-proxy.com/https://raw.githubusercontent.com/luolangaga/tubatools/master/TubaWinUi3.WinUI3/Metadata/gpu-ranking.json",
+        "https://cdn.jsdelivr.net/gh/luolangaga/tubatools@master/TubaWinUi3.WinUI3/Metadata/gpu-ranking.json",
+        "https://raw.githubusercontent.com/luolangaga/tubatools/master/TubaWinUi3.WinUI3/Metadata/gpu-ranking.json"
     ];
 
     public static List<GpuRankingEntry> Desktop => _desktop ?? [];
